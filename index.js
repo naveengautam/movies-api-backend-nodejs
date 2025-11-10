@@ -5,9 +5,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
+const movieRoutes = require('./routes/movie.routes');
 
-
+// Middleware
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+movieRoutes(app);
 
 app.get('/', (req, res) => {
     console.log('Root endpoint accessed');
@@ -25,4 +29,4 @@ app.listen(process.env.PORT, ()=> {
     }).catch((error) => {
         console.error('Error connecting to MongoDB:', error);
     });
-})
+});
