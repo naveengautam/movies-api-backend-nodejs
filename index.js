@@ -5,9 +5,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
+const movieRoutes = require('./routes/movie.routes');
+const userRoutes = require('./routes/user.routes');
 
-
+// Middleware
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+movieRoutes(app);
+userRoutes(app);
 
 app.get('/', (req, res) => {
     console.log('Root endpoint accessed');
@@ -19,10 +25,9 @@ app.get('/', (req, res) => {
 
 app.listen(process.env.PORT, ()=> {
     console.log('Server is running on port 3000');
-    console.log('MongoDB URL:', process.env.MONGO_URL);
     mongoose.connect(process.env.MONGO_URL).then(() => {
         console.log('Connected to MongoDB');
     }).catch((error) => {
         console.error('Error connecting to MongoDB:', error);
     });
-})
+});
