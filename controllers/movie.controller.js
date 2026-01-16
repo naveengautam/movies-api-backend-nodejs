@@ -23,6 +23,29 @@ exports.createMovie = async (req, res) => {
         })
     }
 }
+//Controller to update a movie
+exports.updateMovieByID = async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const updateData = req.body;
+        const updatedMovie = await Movie.findByIdAndUpdate(movieId, updateData, { new: true });
+        res.status(200).json({
+            message: 'Movie updated successfully',
+            success: true,
+            data: updatedMovie,
+            error: {}
+        });
+    } catch(error) {
+        res.status(500).json({
+            message: 'Something went wrong',
+            success: false,
+            data: {},
+            error: error.message
+        });
+    }
+}
+
+
 // Controller to get all movies
 exports.getallMovies = async (req, res) => {
     try {

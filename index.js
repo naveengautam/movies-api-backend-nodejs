@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const cors = require('cors');
 dotenv.config();
 //console.log('Environment Variables:', process.env);
 const express = require('express');
@@ -12,8 +13,14 @@ const userRoutes = require('./routes/user.routes');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// Configure CORS for specific origin
+app.use(cors({
+  origin: 'http://localhost:5173' // Your frontend origin
+}));
 movieRoutes(app);
 userRoutes(app);
+
+
 
 app.get('/', (req, res) => {
     console.log('Root endpoint accessed');
